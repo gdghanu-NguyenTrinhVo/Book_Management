@@ -25,21 +25,21 @@ public class BookServiceImpl implements BookService {
             )
     );
 
+    //Get all book
     @Override
-    public List<Book> getBook(FilterParamBook param){
-        Predicate<Book> predicate = book -> true;
-        //Get book by ID
-        if(param.getId() != null){
-            if(param.getIdMode() == EQUAL_MODE){
-                predicate = predicate.and(book -> book.getId() == param.getId());
-            } else if (param.getIdMode() == GREATER_MODE) {
-                predicate = predicate.and(book -> book.getId() >= param.getId());
-            }
-        }
+    public List<Book> getAllBook(FilterParamBook param){
         return books.stream()
-                .filter(predicate)
                 .collect(Collectors.toList());
     }
+
+    @Override
+   //Get book by ID
+   public Book getByID(long id){
+        return books.stream()
+                .filter(book -> book.getId() == id)
+                .findFirst()
+                .orElse(null);
+   }
 
     @Override
     public Long createBook(Book book){
