@@ -16,9 +16,9 @@ public class BookController {
     @Autowired
     private final BookService bookService;
 
-    @GetMapping
-    public ResponseEntity<?> getBook(@RequestParam(required = false) Long id,
-                                     @RequestParam(required = false) Long idMode
+    @GetMapping("/id")
+    public ResponseEntity<?> getBook(@RequestParam(value ="id", required = false) Long id,
+                                     @RequestParam(value = "idMode",required = false) Long idMode
     ){
         FilterParamBook filterParamBook = new FilterParamBook();
         filterParamBook.setId(id);
@@ -31,7 +31,7 @@ public class BookController {
         return ResponseEntity.ok(bookService.createBook(book));
     }
 
-    @PatchMapping
+    @PutMapping
     public ResponseEntity<?> updateBook(@RequestBody Book book){
         return ResponseEntity.ok(bookService.updateBook(book));
     }
