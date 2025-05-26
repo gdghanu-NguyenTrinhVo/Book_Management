@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
-    public static final int LESS_MODE = -1;
-    public static final int EQUAL_MODE = 0;
-    public static final int GREATER_MODE = 1;
+    public static final long LESS_MODE = -1;
+    public static final long EQUAL_MODE = 0;
+    public static final long GREATER_MODE = 1;
 
     public static List<Book> books = new ArrayList<>(
             List.of(
@@ -33,19 +33,26 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-   //Get book by ID
+   //Get book by id
    public List<Book> getByID(FilterParamBook param){
-        Predicate<Book> predicate = book -> true;
-        if(param.getId() != null){
-            if(param.getIdMode() == EQUAL_MODE){
-                predicate = predicate.and(book -> book.getId() == param.getId());
-            } else if (param.getIdMode() == GREATER_MODE) {
-                predicate = predicate.and(book -> book.getId() >= param.getId());
+        if (param.getIdMode() == null){
+            return books.stream()
+                    .filter(book -> book.getId() == param.getId())
+                    .collect(Collectors.toList());
+        } else {
+            //Get book with id number less than or greater than specified  id
+            Predicate<Book> predicate = book -> true;
+            if(param.getId() != null){
+                if(param.getIdMode() == LESS_MODE){
+                    predicate = predicate.and(book -> book.getId() <= param.getId());
+                } else if (param.getIdMode() == GREATER_MODE) {
+                    predicate = predicate.and(book -> book.getId() >= param.getId());
+                }
             }
+            return books.stream()
+                    .filter(predicate)
+                    .collect(Collectors.toList());
         }
-        return books.stream()
-                .filter(predicate)
-                .collect(Collectors.toList());
    }
 
     @Override
