@@ -1,15 +1,15 @@
 package com.example.Book_Management.service;
 
-import com.example.Book_Management.controller.Book;
+import com.example.Book_Management.entity.BookEntity;
 import com.example.Book_Management.dto.FilterParamBook;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public interface BookService {
-    List<Book> getBook(FilterParamBook filterParamBook);
-    Long createBook(Book book);
-    Long updateBook(Book book);
+    List<BookEntity> getAllBook();
+    Long createBook(BookEntity bookEntity);
+    Long updateBook(long id, BookEntity bookEntity);
     Long deleteBook(long id);
-
+    List<BookEntity> getByID(FilterParamBook filterParamBook);
 }

@@ -1,13 +1,13 @@
 package com.example.Book_Management.controller;
 
 import com.example.Book_Management.dto.FilterParamBook;
+import com.example.Book_Management.entity.BookEntity;
 import com.example.Book_Management.service.BookService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/books")
@@ -32,13 +32,13 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createBook(@RequestBody Book book){
-        return ResponseEntity.ok(bookService.createBook(book));
+    public ResponseEntity<?> createBook(@Valid @RequestBody BookEntity bookEntity){
+        return ResponseEntity.ok(bookService.createBook(bookEntity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBook(@PathVariable("id") long id,@RequestBody Book book){
-        return ResponseEntity.ok(bookService.updateBook(book));
+    public ResponseEntity<?> updateBook(@PathVariable("id") long id,@RequestBody BookEntity bookEntity){
+        return ResponseEntity.ok(bookService.updateBook(id, bookEntity));
     }
 
     @DeleteMapping("/{id}")
